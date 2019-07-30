@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    heritage: Tiller
+    prometheus: kube-prometheus  
+  name: redis
+  namespace: alauda-system
+spec:
+  endpoints:
+  - interval: 5s                 # Prometheus抓取metrics的时间间隔
+    port: redis                    # 要匹配的service的port的名字
+  jobLabel: exporter-redis
+  namespaceSelector:             # 要匹配的service的namespace
+    matchNames:
+    - redis
+  selector:                      # 要匹配的service的label
+    matchLabels:
+      app: redis
